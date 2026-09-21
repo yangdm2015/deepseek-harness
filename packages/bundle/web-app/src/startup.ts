@@ -71,9 +71,9 @@ export function apply(ctx: Context): void {
   const program = webCommand()
   program.action(() => {
     const options = program.opts<WebOptions>()
-    if (options.host === '0.0.0.0') {
-      program.error('error: --host 0.0.0.0 is intentionally not supported yet for safety: it would expose remote code execution to the network; use 127.0.0.1 instead')
-    }
+    // fork: allow binding 0.0.0.0 for intranet dev-machine deployment; the
+    // browser-trust fence (--trusted-host) plus per-start URL token still gate
+    // access. Policy in FORK.md; upstream intentionally keeps this rejected.
     if (options.port !== undefined && !/^\d+$/.test(options.port)) {
       program.error(`error: --port must be a number, got ${JSON.stringify(options.port)}`)
     }
